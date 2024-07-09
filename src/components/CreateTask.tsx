@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { createTodoAction } from '@/lib/todo.actions';
 import { Dialog } from '@radix-ui/react-dialog';
 import Spinner from './Spinner';
+import { toast } from 'react-toastify';
 
 type Props = {
   userId: string;
@@ -36,8 +37,11 @@ const CreateTask = ({ userId }: Props) => {
       setIsCompleted(false);
       setLoading(false);
       setOpen(false);
+      toast.success('Task created successfully');
     } catch (error) {
       console.error(error);
+      setLoading(false);
+      toast.error('An error occurred while creating the task');
     }
   };
 
