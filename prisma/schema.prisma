@@ -14,9 +14,6 @@ datasource db {
 model Task{
   id          String    @id @default(cuid()) @map("_id")
   title       String
-  description String
-  isCompleted Boolean   @default(false)
-
   createdAt   DateTime  @default(now()) @map("created_at")
   userId      String
 }

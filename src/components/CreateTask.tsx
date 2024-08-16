@@ -24,24 +24,25 @@ type Props = {
 const CreateTask = ({ userId }: Props) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [isCompleted, setIsCompleted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
-    try {
-      await createTodoAction({ title, description, isCompleted, userId });
-      setTitle('');
-      setDescription('');
-      setIsCompleted(false);
+    if (title.length > 4) {
+      try {
+        await createTodoAction({ title, userId });
+        setTitle('');
+        setLoading(false);
+        setOpen(false);
+        toast.success('Task created successfully');
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+        toast.error('An error occurred while creating the task');
+      }
+    } else {
+      toast.error('Title must be at least 5 characters');
       setLoading(false);
-      setOpen(false);
-      toast.success('Task created successfully');
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-      toast.error('An error occurred while creating the task');
     }
   };
 
@@ -76,33 +77,6 @@ const CreateTask = ({ userId }: Props) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="description" className="text-right">
-              Description
-            </Label>
-            <Textarea
-              id="description"
-              className="col-span-3"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="completed"
-              id="completed"
-              checked={isCompleted}
-              onChange={(e) => setIsCompleted(e.target.checked)}
-              className="peer h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <label
-              htmlFor="completed"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Completed
-            </label>
           </div>
         </div>
         <DialogFooter>

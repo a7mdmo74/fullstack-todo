@@ -23,7 +23,7 @@ export default async function Home() {
 
                 <UserButton />
               </div>
-              <Todos todos={todos} />
+              <Todos todos={todos} userId={userId!} />
             </div>
           ) : (
             <div className="min-h-screen flex flex-col items-center justify-center gap-8">
